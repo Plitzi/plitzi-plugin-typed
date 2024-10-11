@@ -1,4 +1,4 @@
 // Relatives
-import Demo from './component';
+import Typed from './component';
 
-export default Demo;
+export default Typed;

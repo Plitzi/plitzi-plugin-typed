@@ -1,14 +1,13 @@
 // Relatives
-import Demo from './Demo';
-import DemoChild from './DemoChild';
+import Typed from './Typed';
 import Settings from './Settings';
 
-Demo.type = 'demo';
-Demo.pluginSettings = Settings;
-Demo.version = VERSION;
+Typed.type = 'typed';
+Typed.pluginSettings = Settings;
+Typed.version = VERSION;
 
-export const plugins = { demoChild: DemoChild };
+export const plugins = {};
 
 export const version = VERSION;
 
-export default Demo;
+export default Typed;

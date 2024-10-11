@@ -14,7 +14,7 @@ const PACKAGE = require('./package.json');
 
 const DESTINATION = path.resolve(__dirname, './dist/');
 
-const PluginName = 'demo';
+const PluginName = 'typed';
 
 const build = (env, args) => {
   const devMode = args.mode !== 'production';
@@ -118,7 +118,7 @@ const build = (env, args) => {
             module: 'Plugin'
           },
           definition: {
-            name: "Plitzi's Demo Plugin",
+            name: "Plitzi's Typed Plugin",
             description: '',
             owner: 'Plitzi',
             verified: true,

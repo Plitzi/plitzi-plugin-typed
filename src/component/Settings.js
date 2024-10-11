@@ -1,7 +1,6 @@
 // Packages
 import React, { useCallback } from 'react';
 import noop from 'lodash/noop';
-// import Input from '@plitzi/plitzi-ui/Input';
 
 /**
  * @param {{
@@ -18,7 +17,7 @@ const Settings = props => {
   return (
     <div className="flex flex-col">
       <div className="bg-[#1A2835] px-4 py-2 flex items-center justify-center">
-        <h1 className="text-white m-0">Demo Settings</h1>
+        <h1 className="text-white m-0">Typed Settings</h1>
       </div>
       <div className="flex flex-col w-full px-4 py-2">
         <label>Content</label>
