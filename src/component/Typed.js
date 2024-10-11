@@ -2,7 +2,10 @@
 import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { RootElement } from '@plitzi/plitzi-sdk'; // usePlitziServiceContext
-import TypedJS from 'typed.js'; // eslint-disable-line
+import TypedJS from 'typed.js';
+
+// Styles
+import './Assets/index.scss';
 
 const emptyObject = {};
 const emptyWords = [];
