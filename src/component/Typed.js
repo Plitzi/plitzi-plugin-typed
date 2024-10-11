@@ -59,7 +59,7 @@ const Typed = props => {
   return (
     <RootElement ref={ref} internalProps={internalProps} className={classNames('plitzi-component__typed', className)}>
       {prefix}
-      <div className="flex">
+      <div className="typed__container">
         <span className="font-bold" ref={typedContainerRef} />
         {separator}
       </div>
