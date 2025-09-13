@@ -20,6 +20,8 @@ const emptyWords = [];
  *   words: string[];
  *   suffix: string;
  *   loop: boolean;
+ *   typeSpeed: number;
+ *   backSpeed: number;
  * }} props
  * @returns {React.ReactElement}
  */
@@ -29,10 +31,12 @@ const Typed = props => {
     className = '',
     internalProps = emptyObject,
     prefix = '',
-    separator = ',',
+    separator = '',
     words = emptyWords,
     suffix = '',
-    loop = true
+    loop = true,
+    typeSpeed = 100,
+    backSpeed = 100
   } = props;
   const typedContainerRef = useRef(null);
   const typed = useRef(null);
@@ -41,14 +45,13 @@ const Typed = props => {
   // } = usePlitziServiceContext();
 
   useEffect(() => {
-    const options = {
-      strings: words,
-      loop,
-      typeSpeed: 100,
-      backSpeed: 100
-    };
+    if (!words.length) {
+      return;
+    }
+
     // elRef refers to the <span> rendered below
-    typed.current = new TypedJS(typedContainerRef.current, options);
+    typed.current = new TypedJS(typedContainerRef.current, { strings: words, loop, typeSpeed, backSpeed });
+
     return () => {
       // Make sure to destroy Typed instance during cleanup
       // to prevent memory leaks

@@ -2,6 +2,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { PlitziServiceProvider } from '@plitzi/plitzi-sdk';
+import { describe, it, expect } from '@jest/globals';
 
 // Relatives
 import Typed from './Typed';

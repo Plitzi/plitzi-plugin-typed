@@ -1,5 +1,4 @@
 // Packages
-import path from 'node:path';
 import js from '@eslint/js';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -11,11 +10,6 @@ import cypress from 'eslint-plugin-cypress';
 import jest from 'eslint-plugin-jest';
 import plugin from 'eslint-plugin-import';
 import globals from 'globals';
-
-const GLOBALS_BROWSER_FIX = Object.assign({}, globals.browser, {
-  AudioWorkletGlobalScope: globals.browser['AudioWorkletGlobalScope ']
-});
-delete GLOBALS_BROWSER_FIX['AudioWorkletGlobalScope '];
 
 export default [
   js.configs.recommended,
@@ -35,10 +29,10 @@ export default [
     },
     settings: {
       'import/resolver': {
-        node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+        node: { extensions: ['.js', '.jsx', '.ts', '.tsx', '.es'] },
         alias: {
           map: [],
-          extensions: ['.ts', '.js', '.jsx', '.json', '.stores.js']
+          extensions: ['.ts', '.js', '.jsx', '.json', '.stores.js', '.es']
         }
       },
       react: {
@@ -60,25 +54,16 @@ export default [
         }
       },
       globals: {
-        ...GLOBALS_BROWSER_FIX,
-        ...globals.jest,
-        ...globals.node,
-        Atomics: 'readonly',
-        SharedArrayBuffer: 'readonly',
-        moment: true,
-        handlebars: true,
-        google: true,
-        jQuery: true,
-        $: true,
-        VERSION: true,
-        // Extras
-        'cypress/globals': true,
-        browser: true,
-        es6: true,
-        jest: true
+        ...globals.browser,
+        VERSION: true
       }
     },
     rules: {
+      // temporal
+      'import/no-duplicates': 'off',
+      'import/no-unresolved': 'off',
+      'import/namespace': 'off',
+      // end temporal
       'import/default': 0,
       'no-constant-binary-expression': 0,
       'jsdoc/no-undefined-types': 0,

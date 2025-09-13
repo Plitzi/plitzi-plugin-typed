@@ -2,7 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const WebpackAssetsManifest = require('webpack-assets-manifest');
+const { WebpackAssetsManifest } = require('webpack-assets-manifest');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
@@ -35,6 +35,10 @@ const build = (env, args) => {
       publicPath: 'auto'
     },
     watch,
+    resolve: {
+      extensions: ['.js', '.mjs', '.es', '.cjs', '.ts', '.tsx'],
+      alias: {}
+    },
     externals: ['react', 'react-dom', '@plitzi/plitzi-sdk'],
     devServer: {
       allowedHosts: 'all',
@@ -85,7 +89,9 @@ const build = (env, args) => {
             {
               loader: 'sass-loader',
               options: {
-                sourceMap: devMode
+                implementation: require('sass-embedded'),
+                sourceMap: devMode,
+                sassOptions: { quietDeps: true }
               }
             }
           ],
