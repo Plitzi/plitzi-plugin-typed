@@ -1,1 +1,1 @@
-# plitzi-plugin-template
+# plitzi-plugin-typed

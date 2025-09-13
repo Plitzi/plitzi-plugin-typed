@@ -1,5 +1,5 @@
 {
-  "name": "@plitzi/plitzi-plugin-template",
+  "name": "@plitzi/plitzi-plugin-typed",
   "version": "0.6.0",
   "license": "MIT",
   "files": [
@@ -7,12 +7,12 @@
   ],
   "repository": {
     "type": "https",
-    "url": "https://github.com/plitzi/plitzi-plugin-template.git"
+    "url": "https://github.com/plitzi/plitzi-plugin-typed.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/plitzi"
   },
-  "main": "dist/plitzi-plugin-template.js",
+  "main": "dist/plitzi-plugin-typed.js",
   "dependencies": {
     "@plitzi/plitzi-sdk": "^0.24.2",
     "@plitzi/plitzi-ui": "^1.0.0",

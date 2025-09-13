@@ -3057,9 +3057,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@plitzi/plitzi-plugin-template@workspace:.":
+"@plitzi/plitzi-plugin-typed@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@plitzi/plitzi-plugin-template@workspace:."
+  resolution: "@plitzi/plitzi-plugin-typed@workspace:."
   dependencies:
     "@babel/compat-data": "npm:^7.28.4"
     "@babel/core": "npm:^7.28.4"
