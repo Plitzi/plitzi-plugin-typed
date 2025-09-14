@@ -1,5 +1,5 @@
 // Packages
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import noop from 'lodash/noop';
 import Input from '@plitzi/plitzi-ui/Input';
 import Switch from '@plitzi/plitzi-ui/Switch';

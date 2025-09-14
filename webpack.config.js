@@ -19,6 +19,7 @@ const PluginName = 'typed';
 const build = (env, args) => {
   const devMode = args.mode !== 'production';
   const onlyGzip = env.onlyGzip || false;
+  const asZip = env.asZip || false;
   const onlyAnalyze = env.onlyAnalyze || false;
   const watch = env.watch || false;
 
@@ -39,7 +40,22 @@ const build = (env, args) => {
       extensions: ['.js', '.mjs', '.es', '.cjs', '.ts', '.tsx'],
       alias: {}
     },
-    externals: ['react', 'react-dom', '@plitzi/plitzi-sdk'],
+    externals: [
+      {
+        react: 'react',
+        'react-dom': 'react-dom',
+        'react/jsx-runtime': 'react/jsx-runtime',
+        '@plitzi/plitzi-sdk': '@plitzi/plitzi-sdk'
+      },
+      // @plitzi/plitzi-ui and all submodules
+      function ({ request }, callback) {
+        if (request && /^@plitzi\/plitzi-ui(\/.*)?$/.test(request)) {
+          return callback(null, 'commonjs ' + request); // External
+        }
+
+        callback(); // Normal
+      }
+    ],
     devServer: {
       allowedHosts: 'all',
       compress: false,
@@ -100,7 +116,7 @@ const build = (env, args) => {
       ]
     },
     plugins: [
-      new PlitziPlugin({ isPlugin: true }),
+      asZip ? new PlitziPlugin({ isPlugin: true }) : false,
       new webpack.DefinePlugin({
         VERSION: JSON.stringify(PACKAGE.version)
       }),
@@ -140,7 +156,8 @@ const build = (env, args) => {
               [asset.src]: {
                 ...asset,
                 type: asset.src.endsWith('.js') ? 'script' : 'style',
-                srcPath: `/plitzi-plugin-${PluginName}/${asset.src}`
+                srcPath: `/plitzi-plugin-${PluginName}/${asset.src}`,
+                isMain: true
               }
             };
           }, {})
@@ -170,16 +187,19 @@ const build = (env, args) => {
   if (devMode) {
     modules.devtool = 'source-map';
   } else {
-    modules.plugins.push(
-      new CleanWebpackPlugin(),
-      new FileManagerPlugin({
-        events: {
-          onEnd: {
-            archive: [{ source: './dist', destination: `./dist/plitzi-plugin-${PluginName}.zip` }]
+    modules.plugins.push(new CleanWebpackPlugin());
+    if (asZip) {
+      modules.plugins.push(
+        new FileManagerPlugin({
+          events: {
+            onEnd: {
+              archive: [{ source: './dist', destination: `./dist/plitzi-plugin-${PluginName}.zip` }]
+            }
           }
-        }
-      })
-    );
+        })
+      );
+    }
+
     modules.optimization = {
       minimize: true,
       minimizer: [
