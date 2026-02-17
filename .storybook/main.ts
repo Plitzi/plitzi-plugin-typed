@@ -1,13 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
-  stories: [
-    {
-      directory: '../src/component',
-      files: '*.stories.*',
-      titlePrefix: 'Components'
-    }
-  ],
+  stories: [{ directory: '../src/component', files: '*.stories.*', titlePrefix: 'Components' }],
   addons: ['@storybook/addon-links', '@storybook/addon-styling-webpack'],
   framework: {
     name: '@storybook/react-vite',
