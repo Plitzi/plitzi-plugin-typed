@@ -1,7 +1,9 @@
 node_modules
 dist
+build
 .env
 yarn-error.log
+coverage
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
