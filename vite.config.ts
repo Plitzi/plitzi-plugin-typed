@@ -185,7 +185,21 @@ export default defineConfig(({ mode }) => {
           // }
         ]
       },
-      minify: !devMode,
+      minify: devMode ? false : 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          passes: 2
+        },
+        mangle: {
+          safari10: true
+        },
+        format: {
+          comments: /(webpackIgnore:true|webpackIgnore: true|@vite-ignore)/,
+          beautify: false
+        }
+      },
       sourcemap: devMode,
       emptyOutDir: true
     },
