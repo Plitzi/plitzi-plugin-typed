@@ -1,3 +1,8 @@
 @use './tailwind.css';
-@use './plitzi-plugin-typed';
+@use './plitzi-plugin-typed' as typed;
+
 @import '@plitzi/plitzi-ui/style.css';
+
+@layer plitzi-sdk-plugin {
+  @include typed.styles;
+}

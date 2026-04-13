@@ -9,7 +9,6 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { visualizer } from 'rollup-plugin-visualizer';
 import replace from '@rollup/plugin-replace';
 import { compression } from 'vite-plugin-compression2';
@@ -37,7 +36,6 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
-      nodeResolve({ extensions: ['.js', '.mjs', '.ts', '.tsx'] }),
       react(),
       tailwindcss(),
       dts({
@@ -158,7 +156,7 @@ export default defineConfig(({ mode }) => {
             format: 'es',
             exports: 'named',
             manualChunks: undefined,
-            inlineDynamicImports: true, // false if u want to have chunks !devMode,
+            // inlineDynamicImports: true, // false if u want to have chunks !devMode,
             entryFileNames: `plitzi-plugin-${PluginName}.mjs`,
             chunkFileNames: `plitzi-plugin-${PluginName}-[name].mjs`,
             assetFileNames: `plitzi-plugin-${PluginName}[extname]`,

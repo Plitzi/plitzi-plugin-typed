@@ -1,5 +1,7 @@
-.plitzi-component__typed {
-  .typed__container {
-    display: inline;
+@mixin styles {
+  .plitzi-component__typed {
+    .typed__container {
+      display: inline;
+    }
   }
 }
