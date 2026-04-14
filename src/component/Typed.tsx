@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import TypedJS from 'typed.js';
 
 import './Assets/index.scss';
+void import('./Assets/settings.scss');
 
 import type { RefObject } from 'react';
 

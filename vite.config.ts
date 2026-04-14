@@ -60,7 +60,8 @@ export default defineConfig(({ mode }) => {
       replace({
         preventAssignment: true,
         'process.env.NODE_ENV': JSON.stringify('production'),
-        PLUGIN_VERSION: JSON.stringify(PACKAGE.version)
+        PLUGIN_VERSION: JSON.stringify(PACKAGE.version),
+        __SCOPE__: `plitzi-component__${PluginName}`
       }),
       compression({
         algorithms: ['gzip'],
@@ -78,17 +79,29 @@ export default defineConfig(({ mode }) => {
             string,
             { src: string; integrity: string; type: 'script' | 'style'; srcPath: string; isMain: boolean }
           > = {};
+          const assetsSettings: Record<
+            string,
+            { src: string; integrity: string; type: 'script' | 'style'; srcPath: string }
+          > = {};
           for (const file of files) {
             const fullPath = path.join(distPath, file);
             const integrity = await getIntegrity(fullPath);
-
-            assets[file] = {
-              src: file,
-              integrity,
-              type: file.endsWith('.js') || file.endsWith('.mjs') || file.endsWith('.cjs') ? 'script' : 'style',
-              srcPath: `/plitzi-plugin-${PluginName}/${file}`,
-              isMain: true
-            };
+            if (fullPath.includes('-settings')) {
+              assetsSettings[file] = {
+                src: file,
+                integrity,
+                type: file.endsWith('.js') || file.endsWith('.mjs') || file.endsWith('.cjs') ? 'script' : 'style',
+                srcPath: `/plitzi-plugin-${PluginName}/${file}`
+              };
+            } else {
+              assets[file] = {
+                src: file,
+                integrity,
+                type: file.endsWith('.js') || file.endsWith('.mjs') || file.endsWith('.cjs') ? 'script' : 'style',
+                srcPath: `/plitzi-plugin-${PluginName}/${file}`,
+                isMain: true
+              };
+            }
           }
 
           const manifest = {
@@ -112,7 +125,8 @@ export default defineConfig(({ mode }) => {
               icon: 'https://cdn.plitzi.com/resources/img/favicon.svg'
             },
             pluginSchema,
-            assets
+            assets,
+            assetsSettings
           };
 
           await fs.writeFile(path.join(distPath, 'plugin-manifest.json'), JSON.stringify(manifest, null, 2));
@@ -147,6 +161,7 @@ export default defineConfig(({ mode }) => {
       lib: {
         entry: resolve(__dirname, './src/index.ts')
       },
+      cssCodeSplit: true,
       rollupOptions: {
         treeshake: false,
         external: ['@plitzi/plitzi-sdk', 'react', 'react-dom', 'react/jsx-runtime'],
@@ -158,8 +173,15 @@ export default defineConfig(({ mode }) => {
             manualChunks: undefined,
             // inlineDynamicImports: true, // false if u want to have chunks !devMode,
             entryFileNames: `plitzi-plugin-${PluginName}.mjs`,
-            chunkFileNames: `plitzi-plugin-${PluginName}-[name].mjs`,
-            assetFileNames: `plitzi-plugin-${PluginName}[extname]`,
+            assetFileNames: assetInfo => {
+              const ext = assetInfo.names[0]?.split('.').pop();
+              const baseName = assetInfo.names[0]?.replace(`.${ext}`, '');
+              if (!baseName || baseName === 'index') {
+                return `plitzi-plugin-${PluginName}${ext ? `.${ext}` : ''}`;
+              }
+
+              return `plitzi-plugin-${PluginName}-${baseName}${ext ? `.${ext}` : ''}`;
+            },
             globals: {
               react: 'React',
               'react-dom': 'ReactDOM',

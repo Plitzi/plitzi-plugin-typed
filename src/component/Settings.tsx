@@ -1,9 +1,14 @@
-import Input from '@plitzi/plitzi-ui/Input';
+import Input, { inputTheme } from '@plitzi/plitzi-ui/Input';
 import Provider from '@plitzi/plitzi-ui/Provider';
-import Switch from '@plitzi/plitzi-ui/Switch';
+import Switch, { switchTheme } from '@plitzi/plitzi-ui/Switch';
 import { useCallback } from 'react';
 
 import type { ChangeEvent } from 'react';
+
+const components = {
+  Input: inputTheme,
+  Switch: switchTheme
+};
 
 export type SettingsProps = {
   prefix?: string;
@@ -36,7 +41,7 @@ const Settings = ({ prefix = '', suffix = '', loop = true, separator = '', words
   );
 
   return (
-    <Provider>
+    <Provider components={components}>
       <div className="flex h-full flex-col gap-4 py-2">
         <Input id="prefix" label="Prefix" size="xs" value={prefix} onChange={handleChangePrefix} />
         <Input id="suffix" label="Suffix" size="xs" value={suffix} onChange={handleChangeSuffix} />
