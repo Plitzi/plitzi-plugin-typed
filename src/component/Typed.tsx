@@ -42,8 +42,18 @@ const Typed = ({
       return;
     }
 
-    // elRef refers to the <span> rendered below
-    typed.current = new TypedJS(typedContainerRef.current, { strings: words, loop, typeSpeed, backSpeed });
+    // SECURITY: contentType:'null' forces typed.js to use textContent instead of innerHTML.
+    // Without this flag, attacker-controlled `words` (sourced from CMS/builder content) would
+    // be assigned via `el.innerHTML = words[i]` → stored XSS. Defense-in-depth: also strip
+    // any tag-like sequences before passing to the lib in case contentType is misconfigured.
+    const safeWords = words.map(w => String(w ?? '').replace(/<[^>]*>/g, ''));
+    typed.current = new TypedJS(typedContainerRef.current, {
+      strings: safeWords,
+      loop,
+      typeSpeed,
+      backSpeed,
+      contentType: 'null'
+    });
 
     return () => {
       // Make sure to destroy Typed instance during cleanup
